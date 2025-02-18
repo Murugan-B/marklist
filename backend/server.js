@@ -1,5 +1,5 @@
 const express = require("express");
-const mysql = require("mysql");
+const mysql = require("mysql2");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 
@@ -7,7 +7,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// Database connection
+
 const db = mysql.createConnection({
     host: "localhost",
     user: "root",
@@ -23,7 +23,7 @@ db.connect(err => {
     console.log("Connected to MySQL database");
 });
 
-// Get all marks
+
 app.get("/marks", (req, res) => {
     db.query("SELECT * FROM marks", (err, results) => {
         if (err) throw err;
@@ -31,17 +31,16 @@ app.get("/marks", (req, res) => {
     });
 });
 
-// Add a new mark entry
 app.post("/marks", (req, res) => {
     const { student_name, subject, marks } = req.body;
     const sql = "INSERT INTO marks (student_name, subject, marks) VALUES (?, ?, ?)";
     db.query(sql, [student_name, subject, marks], (err, result) => {
         if (err) throw err;
-        res.json({ message: "Mark added successfully!" });
+        res.json({ id: result.insertId, student_name, subject, marks });
     });
 });
 
-// Update a mark entry
+
 app.put("/marks/:id", (req, res) => {
     const { student_name, subject, marks } = req.body;
     const { id } = req.params;
@@ -52,7 +51,17 @@ app.put("/marks/:id", (req, res) => {
     });
 });
 
-const PORT = 5000;
+
+app.delete("/marks/:id", (req, res) => {
+    const { id } = req.params;
+    const sql = "DELETE FROM marks WHERE id = ?";
+    db.query(sql, [id], (err, result) => {
+        if (err) throw err;
+        res.json({ message: "Mark deleted successfully!" });
+    });
+});
+
+const PORT = 8000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });

@@ -28,7 +28,7 @@ input {
 }
 
 button {
-  background: #da5f18;
+  background: #da5f18; 
   color: white;
   padding: 10px 15px;
   border: none;
@@ -37,7 +37,7 @@ button {
 }
 
 button:hover {
-  background: #0056b3;
+  background: #888888;
 }
 
 table {
@@ -45,7 +45,6 @@ table {
   margin: 20px auto;
   border-collapse: collapse;
   background: #fff;
-
 }
 
 th, td {
@@ -55,17 +54,20 @@ th, td {
 }
 
 th {
-  background: #4d02fc;
+  background: #000000;
   color: white;
 }
 
 td button {
-  background: #28a745;
+  background: #da5f18; 
   color: white;
   padding: 5px 10px;
   border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  margin: 5px;
 }
 
 td button:hover {
-  background: #218838;
+  background: #cacdcf;
 }
